@@ -1,13 +1,24 @@
 # ClientServerBasics
-Starter code for the basic client-server assignment
 
+O servidor consiste de serviços relativos a operações de números primos.
+Cada serviço é solicitado por meio de uma mensagem no formato 
+* \<identificador\> \<valor\>
 
-Este template corresponde ao exemplo da Fig. 2.3 do livro. O exercício consiste em acrescentar funcionalidade ao servidor para torná-lo mais útil. Essa funcionalidade deve ser acessível aos clientes. Por exemplo, o servidor pode ser uma espécie de calculadora remota. O cliente passa dois valores numéricos, juntamente nome de uma operação (ex.: add, subtract, multiply, divide) e o servidor executa a operação respectiva e retorna seu resultado para o cliente. Você pode implementar outro tipo de servidor (diferente da calculadora). O imporante é que ele ofereça pelo menos três operações diferentes que os clientes podem utilizar remotamente, passando dados para serem processados e recebendo o resultado desse processamento como resposta.
+O \<identificador\> explicita o tipo de operação que será realizado sobre o parâmetro \<valor\>.
+Os serviços disponíveis são:
 
-Tarefa individual.
+* CHECK \<valor\> -\> Retorna 1 se o \<valor\> é um número primo e 0 caso contrário.
+* POS \<valor\> -\> Se \<valor\> é um número primo, será retornado a posição de \<valor\> na lista de números primos, indexados de 1 (número 2 é o primeiro da lista). Caso \<valor\> não seja um número primo, será retornado a posição na lista de primos do menor número primo maior que \<valor\>.
+* NEXT \<valor\> -\> Retorna o menor número primo maior que \<valor\>.
+* PREV \<valor\> -\> Retorna o maior número primo menor que \<valor\>.
+* PRIME \<valor\> -\> Retorna \<valor\>-ésimo número primo da lista de números primos.
 
-Incluir um Readme descritivo do sistema implementado.
+### Implementação do servidor.
 
-Incluir, no Readme, o link para o vídeo demonstrativo da execução do programa no AWS.
+A primeira ação ao código do servidor ser inicializado é a computação dos números primos no intervalo de 2 à \<MAXVALUE\>. Esse último representa uma constante especificada no código server.py.
+	A partir disso, os primos são computados por meio do algoritmo Crivo de Eratóstenes. Ao final da computação, tem-se uma lista de todos os primos encontrados denominada "primes".
+	Após a computação dos primos, o server é de fato inicializado e espera por uma conexão.
 
-Todo o código demais artefatos, incluindo o (link para o) vídeo demonstrativo, devem ser entregues via GitHub Classroom. 
+### Implementação do cliente.
+
+O cliente primeiramente se conecta ao servidor e espera a leitura de uma "query" do teclado. Essa "query" é então encaminhada para ser processada pelo servidor.
