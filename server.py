@@ -1,7 +1,7 @@
 from socket  import *
 from constCS import *
 
-MAXVALUE = int(1e6)
+MAXVALUE = int(1e6) + 1
 
 primes = []
 markPrimes = [0] * MAXVALUE
