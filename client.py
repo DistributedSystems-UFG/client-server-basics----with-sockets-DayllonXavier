@@ -1,11 +1,17 @@
 from socket  import *
-from constCS import * #-
+from constCS import *
 
 s = socket(AF_INET, SOCK_STREAM)
-s.connect((HOST, PORT)) # connect to server (block until accepted)
+s.connect((HOST, PORT))
+
 while True:
     query = input()
-    s.send(str.encode(query))  # send some data
-    data = s.recv(1024)     # receive the response
-    print(bytes.decode(data))            # print the result
-s.close()               # close the connection
+    if (query == "EXIT"):
+        break
+
+    s.send(str.encode(query))
+
+    data = s.recv(1024)
+    print(bytes.decode(data))
+    
+s.close()

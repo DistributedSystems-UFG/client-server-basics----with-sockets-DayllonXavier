@@ -1,5 +1,5 @@
 from socket  import *
-from constCS import * #-
+from constCS import *
 
 MAXVALUE = int(1e6)
 
@@ -17,12 +17,12 @@ def computePrimes():
 
 def checkIfIsItAPrime(number):
   if (number < 2 or number > MAXVALUE):
-    return "Out of the range!"
+    return "Out of range!"
   return 1 - markPrimes[number]
 
 def getPosOfANumber(number):
   if (number < 2 or number > MAXVALUE):
-    return "Out of the range!"
+    return "Out of range!"
   l = 1
   r = len(primes)
   while(l < r):
@@ -36,55 +36,56 @@ def getPosOfANumber(number):
   return r
 
 def getNextPrime(number):
-  if (number < 2 or number >= primes[-1]):
-    return "Out of the range!"
+  if (number >= primes[-1]):
+    return "Out of range!"
+  if (number < 2):
+    return 2
   pos = getPosOfANumber(number)-1
   if (primes[pos] == number):
     pos += 1
   if (pos > len(primes)):
-    return "We don't have computed a bigger prime!"
+    return "We don't calculate a greater prime!"
   return primes[pos]
 
 def getPreviousPrime(number):
   if (number < 2 or number > MAXVALUE):
-    return "Out of the range!"
+    return "Out of range!"
   if (number == 2):
     return "The number 2 is the first prime!"
-  pos = getPosOfANumber(number)-1
-  pos -= 1
+  pos = getPosOfANumber(number)-2
   return primes[pos]
 
 def getAPrime(position):
   if (position < 1 or position > len(primes)):
-    return "Out of the range!"
+    return "Out of range!"
   return primes[position-1]
 
 print("Starting the server...")
+
 computePrimes()
-servicesCommands = ['CHECK', 'POS', 'NEXT', 'PREV', 'PRIME']
+print("The prime numbers were searched up to the value {}.\n{} primes were found!".format(MAXVALUE, len(primes)))
 
-s = socket(AF_INET, SOCK_STREAM) 
-s.bind((HOST, PORT)) 
-s.listen(1)          
+s = socket(AF_INET, SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen(1)     
 print("Server started.")
-print("Looked for primes until {}. Founded {} primes!".format(MAXVALUE, len(primes)))
 
-(conn, addr) = s.accept()  # returns new socket and addr. client 
-while True:                # forever
+(conn, addr) = s.accept()
+while True:
   error = False
-  data = conn.recv(1024)   # receive data from client
-  if not data: break       # stop if client stopped
+  data = conn.recv(1024)
+  if not data: break
   data = bytes.decode(data)
-  print(data)
+  print("{} sent query: \'{}\'".format(addr, data))
   
   data = data.split()
+  data[0] = data[0].upper()
+
   if (len(data) != 2):
-    error = True
-  if (data[0] not in servicesCommands):
     error = True
   try:
     data[1] = int(data[1])
-  except:2
+  except:
     error = True
   
   if (error):
@@ -100,16 +101,8 @@ while True:                # forever
       dataToSend = str(getPreviousPrime(data[1]))
     elif (data[0] == 'PRIME'):
       dataToSend = str(getAPrime(data[1]))
+    else:
+      dataToSend = "The operation is not available."
 
-  conn.send(str.encode(dataToSend)) # return sent data plus an "*"
-conn.close()               # close the connection
-
-"""
-FORMATS
-
-CHECK {number} -> Return 1 if number is a prime number and 0 otherwise.
-POS {number} -> Return the position of number in the list of primes (starting on 1). If number is not a prime, the number used will be the smallest prime bigger than number (the next prime).
-NEXT {number} -> Return the smallest prime bigger than number.
-PREV {number} -> Return the biggest prime smaller than number.
-PRIME {position} -> Return the prime in the position {position} on the list of primes.
-"""
+  conn.send(str.encode(dataToSend))
+conn.close()
