@@ -1,17 +1,17 @@
 from socket  import *
 from constCS import *
 
-MAXVALUE = int(1e6) + 1
+MAXVALUE = int(1e6)
 
 primes = []
-markPrimes = [0] * MAXVALUE
+markPrimes = [0] * (MAXVALUE+1)
 
 def computePrimes():
   markPrimes[0] = markPrimes[1] = 1
-  for i in range(2, MAXVALUE):
+  for i in range(2, MAXVALUE+1):
     if (markPrimes[i]):
       continue
-    for j in range(i+i, MAXVALUE, i):
+    for j in range(i+i, MAXVALUE+1, i):
       markPrimes[j] = 1
     primes.append(i)
 
