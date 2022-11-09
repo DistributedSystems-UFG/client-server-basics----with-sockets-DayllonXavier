@@ -15,10 +15,13 @@ Os serviços disponíveis são:
 
 ### Implementação do servidor.
 
-A primeira ação ao código do servidor ser inicializado é a computação dos números primos no intervalo de 2 à \<MAXVALUE\>. Esse último representa uma constante especificada no código server.py.
-	A partir disso, os primos são computados por meio do algoritmo Crivo de Eratóstenes. Ao final da computação, tem-se uma lista de todos os primos encontrados denominada "primes".
-	Após a computação dos primos, o server é de fato inicializado e espera por uma conexão.
+A primeira ação do código do servidor ao ser inicializado é a computação dos números primos no intervalo de 2 à \<MAXVALUE\>. Esse último valor representa uma constante especificada no código server.py.
+A partir disso, os primos são computados por meio do algoritmo Crivo de Eratóstenes. Ao final da computação, tem-se uma lista de todos os primos encontrados denominada "primes". Após a computação dos primos, o server é de fato inicializado e espera por uma conexão.
 
 ### Implementação do cliente.
 
-O cliente primeiramente se conecta ao servidor e espera a leitura de uma "query" do teclado. Essa "query" é então encaminhada para ser processada pelo servidor.
+O cliente primeiramente se conecta ao servidor e espera a leitura de uma "query" do teclado. Essa "query" é então encaminhada para ser processada pelo servidor. Caso essa "query" seja o texto "EXIT", a conexão entre o cliente e o servidor é encerrada e o programa finalizado.
+
+### Vídeo de apresentação
+
+O link para a apresentação do projeto está disponível aqui: https://youtu.be/zf8ITDOUbeQ
